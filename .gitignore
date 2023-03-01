@@ -88,3 +88,13 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# UserInterfaceState.xcuserstate
+Stack.xcodeproj/project.xcworkspace/xcuserdata/erfanbonyadi.xcuserdatad/UserInterfaceState.xcuserstate
+Stack.xcodeproj/project.xcworkspace/xcuserdata/bnulo.xcuserdatad/UserInterfaceState.xcuserstate
+
+Stack.xcodeproj/xcuserdata/bnulo.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+Stack.xcodeproj/xcuserdata/erfanbonyadi.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+
+# my files
+HealthTabs/HealthTabs/Task.pdf
