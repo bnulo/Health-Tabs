@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct TabItemView: View {
 
@@ -19,9 +20,13 @@ struct TabItemView: View {
                 .ignoresSafeArea()
             switch item {
             case .covid:
-                CovidView()
+                CovidView(viewModel: CovidViewModel())
             case .health:
-                HealthView()
+                if HKHealthStore.isHealthDataAvailable() {
+                    HealthView(viewModel: HealthViewModel())
+                } else {
+                    Text("Health Data is not Available.")
+                }
             }
         }
     }

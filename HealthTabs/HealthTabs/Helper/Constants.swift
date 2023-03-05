@@ -12,4 +12,7 @@ enum Constants {
         static let heart = "heart.fill"
         static let statistics = "chart.bar.xaxis"
     }
+    enum Size {
+        static let flagImageWidth: CGFloat = 44
+    }
 }
