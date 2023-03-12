@@ -35,6 +35,9 @@ struct HealthView: View {
 
         }
         .navigationBarTitle("Step Count", displayMode: .inline)
+        .onAppear {
+            viewModel.onViewAppear()
+        }
     }
 
     // MARK: - Header View

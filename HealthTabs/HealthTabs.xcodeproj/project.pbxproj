@@ -16,6 +16,8 @@
 		958A1E0E29B2AB0F00837F90 /* MockServiceCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A1E0D29B2AB0F00837F90 /* MockServiceCountry.swift */; };
 		958A1E1229B2ABA500837F90 /* ServiceProtocolCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A1E1129B2ABA500837F90 /* ServiceProtocolCountry.swift */; };
 		958A1E1429B2AC8900837F90 /* APIService+Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A1E1329B2AC8900837F90 /* APIService+Country.swift */; };
+		95D20BE129BDBD3B00241FE4 /* HealthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D20BE029BDBD3B00241FE4 /* HealthData.swift */; };
+		95D20BE329BE190F00241FE4 /* HealthKitSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D20BE229BE190F00241FE4 /* HealthKitSupport.swift */; };
 		95FF4B1329AF8A790085F584 /* HealthTabsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF4B1229AF8A790085F584 /* HealthTabsApp.swift */; };
 		95FF4B1529AF8A790085F584 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FF4B1429AF8A790085F584 /* ContentView.swift */; };
 		95FF4B1729AF8A7B0085F584 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95FF4B1629AF8A7B0085F584 /* Assets.xcassets */; };
@@ -78,6 +80,8 @@
 		958A1E0D29B2AB0F00837F90 /* MockServiceCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServiceCountry.swift; sourceTree = "<group>"; };
 		958A1E1129B2ABA500837F90 /* ServiceProtocolCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocolCountry.swift; sourceTree = "<group>"; };
 		958A1E1329B2AC8900837F90 /* APIService+Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService+Country.swift"; sourceTree = "<group>"; };
+		95D20BE029BDBD3B00241FE4 /* HealthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthData.swift; sourceTree = "<group>"; };
+		95D20BE229BE190F00241FE4 /* HealthKitSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitSupport.swift; sourceTree = "<group>"; };
 		95FF4B0F29AF8A790085F584 /* HealthTabs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthTabs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95FF4B1229AF8A790085F584 /* HealthTabsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTabsApp.swift; sourceTree = "<group>"; };
 		95FF4B1429AF8A790085F584 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -149,13 +153,14 @@
 			path = "Educational Content";
 			sourceTree = "<group>";
 		};
-		958A1DF929B0EE4C00837F90 /* Helper */ = {
+		958A1DF929B0EE4C00837F90 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				95FF4B4A29AF91650085F584 /* Constants.swift */,
+				95D20BE229BE190F00241FE4 /* HealthKitSupport.swift */,
 				9582C48029B42D7F00950B97 /* Helper.swift */,
 			);
-			path = Helper;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		958A1DFA29B0F09500837F90 /* App Shared */ = {
@@ -199,6 +204,15 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
+		95D20BDF29BDBD1400241FE4 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				95D20BE029BDBD3B00241FE4 /* HealthData.swift */,
+				95FF4B5529AFBE260085F584 /* Networking */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		95FF4B0629AF8A790085F584 = {
 			isa = PBXGroup;
 			children = (
@@ -224,10 +238,10 @@
 			children = (
 				95FF4B3D29AF8BC20085F584 /* App */,
 				958A1DFA29B0F09500837F90 /* App Shared */,
+				95D20BDF29BDBD1400241FE4 /* Data */,
 				95FF4B4E29AF96E00085F584 /* Extension */,
-				958A1DF929B0EE4C00837F90 /* Helper */,
 				95FF4B4129AF8D4D0085F584 /* Model */,
-				95FF4B5529AFBE260085F584 /* Networking */,
+				958A1DF929B0EE4C00837F90 /* Utilities */,
 				95FF4B4029AF8D440085F584 /* View */,
 			);
 			path = HealthTabs;
@@ -561,6 +575,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95FF4B6429AFCEA50085F584 /* CovidViewModel.swift in Sources */,
+				95D20BE129BDBD3B00241FE4 /* HealthData.swift in Sources */,
 				95FF4B5D29AFC7590085F584 /* ServiceProtocolCovid.swift in Sources */,
 				95FF4B5229AF9B900085F584 /* TabItemView.swift in Sources */,
 				95FF4B8429B031AE0085F584 /* CovidDetailViewModel.swift in Sources */,
@@ -571,6 +586,7 @@
 				95FF4B1529AF8A790085F584 /* ContentView.swift in Sources */,
 				958A1E0129B0FAA400837F90 /* HealthViewModel.swift in Sources */,
 				958A1E0B29B2A85300837F90 /* MockServiceCovid.swift in Sources */,
+				95D20BE329BE190F00241FE4 /* HealthKitSupport.swift in Sources */,
 				958A1DFF29B0F40500837F90 /* StepCountModel.swift in Sources */,
 				95FF4B6629AFD8CF0085F584 /* LoadingView.swift in Sources */,
 				95FF4B1329AF8A790085F584 /* HealthTabsApp.swift in Sources */,

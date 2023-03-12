@@ -21,30 +21,25 @@ final class HealthViewModel: ObservableObject {
         }
     }
 
-    private var store: HKHealthStore?
-    private var query: HKStatisticsCollectionQuery?
-
-    private let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
+    private let quantityTypeIdentifier: HKQuantityTypeIdentifier = .stepCount
+    private let store = HealthData.healthStore
 
     private var shareTypes: Set<HKSampleType> {
-        Set([stepCountType])
-    }
-    private var readTypes: Set<HKSampleType> {
-        Set([stepCountType])
-    }
 
-    // MARK: -
-
-    init() {
-        guard HKHealthStore.isHealthDataAvailable() else { return }
-        store = HKHealthStore()
-
-        // TODO: - Check/Get Permissions more user-friendly
-        requestAuthorization { [weak self] success in
-            if success {
-                self?.setStats()
-            }
+        guard let stepCountType = HKQuantityType
+            .quantityType(forIdentifier: .stepCount) else {
+            return Set([])
         }
+        return Set([stepCountType])
+    }
+
+    private var readTypes: Set<HKSampleType> {
+
+        guard let stepCountType = HKQuantityType
+            .quantityType(forIdentifier: .stepCount) else {
+            return Set([])
+        }
+        return Set([stepCountType])
     }
 
     // MARK: - User Permisson
@@ -54,12 +49,22 @@ final class HealthViewModel: ObservableObject {
         guard HKHealthStore.isHealthDataAvailable() else { return }
         // toShare is writing access
         // read is reading access
-        store?.requestAuthorization(toShare: shareTypes,
-                                    read: readTypes) { success, error in
-            if let error {
-                log(error)
-            }
+
+        // TODO: - Check/Get Permissions more user-friendly
+        HealthData.requestHealthDataAccessIfNeeded(toShare: shareTypes,
+                                                   read: readTypes) { success in
             completion(success) // success does not mean authorized
+        }
+    }
+
+    // MARK: -
+
+    func onViewAppear() {
+
+        requestAuthorization { [weak self] success in
+            if success {
+                self?.setStats()
+            }
         }
     }
 
@@ -67,52 +72,11 @@ final class HealthViewModel: ObservableObject {
 
     private func setStats() {
 
-        requestStepCount { [weak self] stepsCountModels in
+        HealthData.fetchStepCountStatistics(with: quantityTypeIdentifier) { [weak self] stepsCountModels in
             DispatchQueue.main.async {
                 self?.stepCountModels = stepsCountModels
             }
         }
-    }
-
-    private func requestStepCount(completion: @escaping ([StepCountModel]) -> Void) {
-
-        // query
-        let startDate = Date.getDateOfFirstDayOfSomeYearsAgo(numberOfYears: 5)
-        let endDate = Date()
-        guard let startDate else { return }
-
-        let monthInterval = DateComponents(month: 1)
-
-        var healthStat = [StepCountModel]()
-        let predicate = HKQuery.predicateForSamples(withStart: startDate,
-                                                    end: endDate,
-                                                    options: .strictStartDate)
-
-        query = HKStatisticsCollectionQuery(quantityType: stepCountType,
-                                            quantitySamplePredicate: predicate,
-                                            options: .cumulativeSum,
-                                            anchorDate: startDate,
-                                            intervalComponents: monthInterval)
-
-        query?.initialResultsHandler = { query, statistics, error in
-            log(query)
-            if let error {
-                log(error)
-                return
-            }
-            statistics?.enumerateStatistics(from: startDate,
-                                            to: endDate,
-                                            with: { stats, _ in
-                let stat = StepCountModel(stat: stats.sumQuantity(),
-                                      date: stats.startDate)
-                healthStat.append(stat)
-            })
-
-            completion(healthStat)
-        }
-
-        guard let query = query else { return }
-        store?.execute(query)
     }
 
     // MARK: - Helper
@@ -120,8 +84,9 @@ final class HealthViewModel: ObservableObject {
     private func setMaxValue() {
         let values = stepCountModels.map({
                                     value(from: $0.stat).value })
+        let max = values.max() ?? 0
         DispatchQueue.main.async { [weak self] in
-            self?.maxStatValue = values.max() ?? 0
+            self?.maxStatValue = max
         }
     }
 
@@ -146,5 +111,4 @@ final class HealthViewModel: ObservableObject {
         }
         return (0, "")
     }
-
 }

@@ -57,7 +57,7 @@ final class EducationalHealthViewModel: ObservableObject {
         store?.requestAuthorization(toShare: shareTypes,
                                     read: readTypes) { success, error in
             if let error {
-                print(error)
+                log(error)
             }
             completion(success) // success does not mean authorized
         }
@@ -93,9 +93,9 @@ final class EducationalHealthViewModel: ObservableObject {
                                             anchorDate: anchoreDate,
                                             intervalComponents: dailyComponent)
         query?.initialResultsHandler = { query, statistics, error in
-            print(query)
+            log(query)
             if let error {
-                print(error)
+                log(error)
                 return
             }
             statistics?.enumerateStatistics(from: startDate,
@@ -194,9 +194,9 @@ final class EducationalHealthViewModel: ObservableObject {
                                       start: startDate,
                                       end: endDate)
         store?.save(sample) { success, error in
-            if let error { print(error.localizedDescription) }
+            if let error { log(error.localizedDescription) }
             // completion(success)
-            print(success)
+            log(success)
         }
     }
 
@@ -223,8 +223,8 @@ final class EducationalHealthViewModel: ObservableObject {
             if let statisticsCollection {
                 self?.updateUIFromStatistics(statisticsCollection)
             }
-            print(query)
-            if let error { print(error.localizedDescription) }
+            log(query)
+            if let error { log(error.localizedDescription) }
         }
 
         // update handler
@@ -234,9 +234,9 @@ final class EducationalHealthViewModel: ObservableObject {
             if let statisticsCollection {
                 self?.updateUIFromStatistics(statisticsCollection)
             }
-            if let statistics { print(statistics) }
-            print(query)
-            if let error { print(error.localizedDescription) }
+            if let statistics { log(statistics) }
+            log(query)
+            if let error { log(error.localizedDescription) }
         }
 
         guard let query else { return }
@@ -334,9 +334,9 @@ final class EducationalHealthViewModel: ObservableObject {
                                   predicate: nil,
                                   limit: 1,
                                   sortDescriptors: sort) { query, samples, error in
-            print(query)
-            if let error { print(error) }
-            if let samples { print(samples) }
+            log(query)
+            if let error { log(error) }
+            if let samples { log(samples) }
         }
         store?.execute(query)
     }
