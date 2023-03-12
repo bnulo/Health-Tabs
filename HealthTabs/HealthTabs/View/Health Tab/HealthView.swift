@@ -10,10 +10,11 @@ import SwiftUI
 struct HealthView: View {
 
     @ObservedObject var viewModel: HealthViewModel
+    let backgroundColor: Color
 
     var body: some View {
         ZStack {
-            Color.healthColor
+            backgroundColor
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
 
@@ -56,6 +57,6 @@ struct HealthView: View {
 
 struct HealthView_Previews: PreviewProvider {
     static var previews: some View {
-        HealthView(viewModel: HealthViewModel())
+        HealthView(viewModel: HealthViewModel(), backgroundColor: TabItem.health.color)
     }
 }

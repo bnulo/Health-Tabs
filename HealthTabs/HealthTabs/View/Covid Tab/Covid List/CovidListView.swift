@@ -10,23 +10,25 @@ import SwiftUI
 struct CovidListView: View {
 
     @ObservedObject var viewModel: CovidViewModel
+    let backgroundColor: Color
 
     var body: some View {
 
             ZStack {
-                TabItem.covid.color
+                backgroundColor
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .ignoresSafeArea()
                 List {
                     ForEach(viewModel.rowViewModels) { viewModel in
                         NavigationLink {
-                            CovidDetailView(viewModel: CovidDetailViewModel(model: viewModel.model))
+                            CovidDetailView(viewModel: CovidDetailViewModel(model: viewModel.model),
+                            backgroundColor: backgroundColor)
                         } label: {
                             CovidRowView(viewModel: viewModel)
                         }
 
                     }
-                    .listRowBackground(TabItem.covid.color)
+                    .listRowBackground(backgroundColor)
                 }
                 .listStyle(PlainListStyle())
             }
@@ -36,6 +38,6 @@ struct CovidListView: View {
 
 struct CovidListView_Previews: PreviewProvider {
     static var previews: some View {
-        CovidListView(viewModel: CovidViewModel())
+        CovidListView(viewModel: CovidViewModel(), backgroundColor: TabItem.covid.color)
     }
 }

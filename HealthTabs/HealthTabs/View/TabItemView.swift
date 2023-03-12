@@ -20,10 +20,10 @@ struct TabItemView: View {
                 .ignoresSafeArea()
             switch item {
             case .covid:
-                CovidView(viewModel: CovidViewModel())
+                CovidView(viewModel: CovidViewModel(), backgroundColor: item.color)
             case .health:
                 if HKHealthStore.isHealthDataAvailable() {
-                    HealthView(viewModel: HealthViewModel())
+                    HealthView(viewModel: HealthViewModel(), backgroundColor: item.color)
                 } else {
                     Text("Health Data is not Available.")
                 }

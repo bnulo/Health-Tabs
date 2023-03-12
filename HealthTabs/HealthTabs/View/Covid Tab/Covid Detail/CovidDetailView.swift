@@ -10,10 +10,11 @@ import SwiftUI
 struct CovidDetailView: View {
 
     @ObservedObject var viewModel: CovidDetailViewModel
+    let backgroundColor: Color
 
     var body: some View {
         ZStack {
-            TabItem.covid.color
+            backgroundColor
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
             ScrollView {
@@ -88,6 +89,7 @@ struct CovidDetailView: View {
 
 struct CovidDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CovidDetailView(viewModel: CovidDetailViewModel(model: CovidModel.example3()))
+        CovidDetailView(viewModel: CovidDetailViewModel(model: CovidModel.example3()),
+                        backgroundColor: TabItem.covid.color)
     }
 }

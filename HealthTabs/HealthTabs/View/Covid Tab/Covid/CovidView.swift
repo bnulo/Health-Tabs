@@ -11,6 +11,7 @@ import Kingfisher
 struct CovidView: View {
 
     @ObservedObject var viewModel: CovidViewModel
+    let backgroundColor: Color
 
     var body: some View {
         ZStack {
@@ -19,7 +20,7 @@ struct CovidView: View {
             } else if viewModel.errorMessage != nil {
                 CovidErrorView(viewModel: viewModel)
             } else {
-                CovidListView(viewModel: viewModel)
+                CovidListView(viewModel: viewModel, backgroundColor: backgroundColor)
             }
         }
         .onAppear {
@@ -43,6 +44,6 @@ struct CovidView: View {
 
 struct CovidView_Previews: PreviewProvider {
     static var previews: some View {
-        CovidView(viewModel: CovidViewModel())
+        CovidView(viewModel: CovidViewModel(), backgroundColor: TabItem.covid.color)
     }
 }
