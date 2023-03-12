@@ -48,7 +48,7 @@ struct UncertainValue<T: Decodable, U: Decodable>: Decodable {
      "lastUpdatedApify": "2022-11-21T12:00:00.000Z"
  */
 
-struct CovidModel: Decodable, Identifiable {
+struct CovidModel: Decodable, Identifiable, Equatable {
 
     let infected: UncertainValue<Int, String>?
     let tested: UncertainValue<Int, String>?
@@ -61,6 +61,12 @@ struct CovidModel: Decodable, Identifiable {
     let lastUpdatedApify: String?
 
     var id: String { country }
+
+    // MARK: - Equatable
+
+    static func == (lhs: CovidModel, rhs: CovidModel) -> Bool {
+        lhs.id == rhs.id
+    }
 
     static let items = [example1(), example2(), example3()]
 

@@ -30,17 +30,23 @@ final class HealthTabsTests: XCTestCase {
         let result = Result<[CovidModel], APIError>
             .success(CovidModel.items)
         let viewModel = CovidViewModel(service: MockServiceCovid(covidResult: result))
-        let promise = expectation(description: "getting items")
+
+        let desc = "Testing Service Success case. " +
+        "We have to get the same mock data received by service"
+        let promise = expectation(description: desc)
+
         viewModel.$models.sink { models in
             if models.count > 0 {
-                promise.fulfill()
+                if models == CovidModel.items {
+                    promise.fulfill()
+                }
             }
         }.store(in: &subscriptions)
 
         wait(for: [promise], timeout: 2)
     }
 
-    // MARK: - Failure
+    // MARK: - Failure Case caused by badURL
 
     func test_fetchCovidStats_failure() {
 
@@ -49,7 +55,7 @@ final class HealthTabsTests: XCTestCase {
 
         let viewModel = CovidViewModel(service: MockServiceCovid(covidResult: result))
 
-        let promise = expectation(description: "show error message")
+        let promise = expectation(description: "show appropriate error message for badURL")
         viewModel.$models.sink { models in
             if !models.isEmpty {
                 XCTFail("models list has to be empty on service failure")
@@ -57,7 +63,7 @@ final class HealthTabsTests: XCTestCase {
         }.store(in: &subscriptions)
 
         viewModel.$errorMessage.sink { message in
-            if message != nil {
+            if message == APIError.badURL.localizedDescription {
                 promise.fulfill()
             }
         }.store(in: &subscriptions)
@@ -73,15 +79,24 @@ final class HealthTabsTests: XCTestCase {
 
         // Covid Country and Flag Country has to be same
         // in this test we use first country "Algeria"
+        let data = CountryModel.example1()
+        guard let urlString = data.first?.flags?.png else { return }
+        guard let imageUrl = URL(string: urlString) else { return }
+
         let result = Result<[CountryModel], APIError>
-            .success(CountryModel.example1())
+            .success(data)
         let viewModel = CovidRowViewModel(model: CovidModel.example1(),
         service: MockServiceCountry(countryResult: result))
-        let promise = expectation(description: "getting flag url")
+
+        let desc = "Testing Service Success case. " +
+        "We have to get the same mock png url for flag image received by service"
+        let promise = expectation(description: desc)
         viewModel.$flagImageUrl.sink { url in
-            if url != nil {
+
+            if url == imageUrl {
                 promise.fulfill()
             }
+
         }.store(in: &subscriptions)
 
         wait(for: [promise], timeout: 2)
@@ -97,7 +112,7 @@ final class HealthTabsTests: XCTestCase {
         let viewModel = CovidRowViewModel(model: CovidModel.example1(),
         service: MockServiceCountry(countryResult: result))
 
-        let promise = expectation(description: "show error message")
+        let promise = expectation(description: "show appropriate error message for badURL")
         viewModel.$flagImageUrl.sink { url in
             if url != nil {
                 XCTFail("flag image url has to be nil on service failure")
@@ -105,7 +120,7 @@ final class HealthTabsTests: XCTestCase {
         }.store(in: &subscriptions)
 
         viewModel.$errorMessage.sink { message in
-            if message != nil {
+            if message == APIError.badURL.localizedDescription {
                 promise.fulfill()
             }
         }.store(in: &subscriptions)

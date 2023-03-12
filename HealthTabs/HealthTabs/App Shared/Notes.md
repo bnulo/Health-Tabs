@@ -23,6 +23,17 @@ Package Dependencies:
 
 ## Ideas
 
+## Tips
+
+### 1. Explicit/Implicit Dependency
+Be aware of implicit dependencies like using
+TabItem.health.color for background of a child view.
+Child view needs the background as an Explicit Dependency.
+
+### 2. Use Integration/Unit/Smoke Tests in the appropriate context.
+
+### 3. Do not add the mock data to the release Target. And place the mock data
+in Resources instead of the Model folder 
 
 ## Health Kit
 
